@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestor de Torneo Deportivo</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>🏆 Gestor de Torneo Deportivo</h1>
+    <p class="subtitle">Organiza tu torneo completo de forma automática</p>
+  </header>
+
+  <nav id="main-nav">
+    <button class="nav-btn active" data-section="teams-section">Equipos</button>
+    <button class="nav-btn" data-section="groups-section">Grupos</button>
+    <button class="nav-btn" data-section="matches-section">Partidos</button>
+    <button class="nav-btn" data-section="standings-section">Tabla</button>
+    <button class="nav-btn" data-section="knockout-section">Eliminatorias</button>
+  </nav>
+
+  <main>
+    <!-- TEAMS SECTION -->
+    <section id="teams-section" class="section active">
+      <h2>📋 Registro de Equipos</h2>
+      <div class="form-row">
+        <input type="text" id="team-name-input" placeholder="Nombre del equipo" maxlength="30">
+        <button id="add-team-btn" class="btn btn-primary">Agregar Equipo</button>
+      </div>
+      <div id="team-count" class="info-text"></div>
+      <ul id="team-list" class="team-list"></ul>
+      <div class="action-row">
+        <button id="generate-tournament-btn" class="btn btn-success" disabled>Generar Torneo</button>
+        <button id="reset-tournament-btn" class="btn btn-danger">Reiniciar Torneo</button>
+      </div>
+    </section>
+
+    <!-- GROUPS SECTION -->
+    <section id="groups-section" class="section">
+      <h2>👥 Fase de Grupos</h2>
+      <div id="groups-container" class="groups-grid"></div>
+    </section>
+
+    <!-- MATCHES SECTION -->
+    <section id="matches-section" class="section">
+      <h2>⚽ Partidos de Grupo</h2>
+      <div id="matches-container"></div>
+    </section>
+
+    <!-- STANDINGS SECTION -->
+    <section id="standings-section" class="section">
+      <h2>📊 Tablas de Posiciones</h2>
+      <div id="standings-container"></div>
+    </section>
+
+    <!-- KNOCKOUT SECTION -->
+    <section id="knockout-section" class="section">
+      <h2>🏅 Fase Eliminatoria</h2>
+      <div id="knockout-message" class="info-text"></div>
+      <div id="bracket-container" class="bracket"></div>
+      <div id="champion-banner" class="champion-banner hidden"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Gestor de Torneo Deportivo &copy; 2026 — Los datos se guardan automáticamente en tu navegador.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
