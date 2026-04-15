@@ -310,6 +310,7 @@
         }
       });
     Object.values(stats).forEach((s) => (s.gd = s.gf - s.gc));
+    // Sort by: 1) Points (desc), 2) Goal difference (desc), 3) Goals scored (desc)
     return Object.values(stats).sort((a, b) => b.pts - a.pts || b.gd - a.gd || b.gf - a.gf);
   }
 
@@ -472,6 +473,13 @@
     if (side === "home") match.homeScore = val;
     else match.awayScore = val;
 
+    // Warn about ties in knockout (draws not allowed)
+    if (match.homeScore !== null && match.awayScore !== null && match.homeScore === match.awayScore) {
+      knockoutMessage.textContent = "⚠️ Los empates no están permitidos en eliminatorias. Cambia el marcador para definir un ganador.";
+    } else {
+      knockoutMessage.textContent = "";
+    }
+
     // Advance winner to next round
     advanceKnockout();
     save();
@@ -485,20 +493,21 @@
         (m) => m.homeScore !== null && m.awayScore !== null && m.homeScore !== m.awayScore
       );
       if (allDecided && round.length > 1) {
-        // Need next round
+        // Need next round — ensure even number of matches for proper pairing
+        if (round.length % 2 !== 0) break;
         if (ri + 1 >= state.knockout.length) {
-          // Create it
+          // Create next round from winners
           const nextRound = [];
-          for (let i = 0; i < round.length; i += 2) {
+          for (let i = 0; i + 1 < round.length; i += 2) {
             const w1 = round[i].homeScore > round[i].awayScore ? round[i].home : round[i].away;
             const w2 = round[i + 1].homeScore > round[i + 1].awayScore ? round[i + 1].home : round[i + 1].away;
             nextRound.push({ home: w1, away: w2, homeScore: null, awayScore: null });
           }
           state.knockout.push(nextRound);
         } else {
-          // Update existing next round
+          // Update existing next round with current winners
           const nextRound = state.knockout[ri + 1];
-          for (let i = 0; i < round.length; i += 2) {
+          for (let i = 0; i + 1 < round.length; i += 2) {
             const mi = Math.floor(i / 2);
             const w1 = round[i].homeScore > round[i].awayScore ? round[i].home : round[i].away;
             const w2 = round[i + 1].homeScore > round[i + 1].awayScore ? round[i + 1].home : round[i + 1].away;
